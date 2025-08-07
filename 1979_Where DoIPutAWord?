@@ -1,0 +1,33 @@
+#1979 where do i put a word?
+T = int(input())
+
+for tc in range(1, T+1):
+    # N:판 크기, K:단어의 길이
+    N, K = map(int, input().split())
+    # 퍼즐값 입력
+    block = [list(map(int, input().split())) for _ in range(N)] 
+    # 단어가 들어갈 수 있는 자리의 총 개수
+    total = 0
+
+    # 가로 방향 탐색
+    for i in range(N):
+        count = 0 # 탐색 시작점
+        # 행검사
+        for j in range(N):
+            if block[i][j] == 1:  # 행을 돌릴 때 1이면 count +1
+                count += 1 # 행의 1을 확인하는 작업
+            if block[i][j] == 0 or j == N-1: # 행을 돌릴 때 0이거나 N-1이면(마지막칸), 단어 개수와 같으면 더 갈 곳이 없으니까 확인 작업
+                if count == K: # 그때 단어의 개수와 빈칸의 개수(1)가 같다면
+                    total += 1 # +1
+                count = 0 # 다시 리셋(다음 줄 확인)
+
+        # 열검색
+        for j in range(N):
+            if block[j][i] == 1: # 열에 1이 있는지 확인
+                count += 1 # 열에서 1확인하면 추가
+            if block[j][i] == 0 or j == N-1: # 이제 1이 다 끝나는 시점에
+                if count == K: # 단어 수와 count(1)이 같은지 확인
+                    total += 1 # 그래 K랑 count랑 같으면 1을 해야지
+                count = 0 # 다시 리셋
+
+    print(f'#{tc} {total}')
